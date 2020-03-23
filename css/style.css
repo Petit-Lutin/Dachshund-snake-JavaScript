@@ -1,0 +1,14 @@
+#canvasboard{
+    border:1px solid #ccae75;
+    display: flex;
+    margin: auto;
+    width: 600px;
+    height: 400px;
+    /* color: #f5deb3; */
+}
+
+#dog{
+    width: 40px;
+    height: 40px;
+    /* background: #a52a2a; */
+}
