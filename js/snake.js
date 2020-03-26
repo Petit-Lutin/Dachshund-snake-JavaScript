@@ -179,11 +179,21 @@ function draw() {
     //if the snake eats the food
     if ((snakeX == food.x) && (snakeY == food.y)) {
         score++;
-        // eat.play();
-        food = {
+        // eat.play(); 
+         food = {
             x: Math.floor(Math.random() * 20 + 1) * box,
             y: Math.floor(Math.random() * 20 + 3) * box
         }
+        for (i=0;i<snake.length;i++){ //check for the food not to be placed where the snake is
+            if (snake[i].x==food.x){
+                food.x=Math.floor(Math.random() * 20 + 1) * box
+            }
+            if (snake[i].y==food.y){
+                food.y=Math.floor(Math.random() * 20 + 3) * box
+            }
+        }
+      
+
         //don't remove the tail
 
     } else {
