@@ -17,6 +17,9 @@ dogBodyImg.src = "sprites/body.png";
 const dogTailImg = new Image();
 dogTailImg.src = "sprites/tail.png";
 
+dogStartImg = new Image();
+dogStartImg.src = "sprites/deb.png";
+
 //load audio files
 const dead = new Audio();
 const eat = new Audio();
@@ -42,6 +45,15 @@ snake[0] = {
     x: 9 * box,
     y: 10 * box
 };
+// snake[1] = {
+//     x: snake[0].x,
+//     y: 11 * box
+// };
+let snakeTail = {
+    x: 9 * box,
+    y: 11 * box
+}
+let begin = true;
 
 // create the food random position
 let food = {
@@ -100,30 +112,27 @@ function draw() {
     ctx.drawImage(background, 0, 0);
     for (let i = 0; i < snake.length; i++) {
         // ctx.fillStyle = (i == 0) ? "green" : "white";
-        // ctx.fillStyle = (i == 0) ? "green" : "white";
-        if (i == 0) {
-            ctx.fillStyle = "green";
-        }
-        // for (let j = 0; j < snake.length - 1; j++) {
-        //     if (j == 0) {
-        // ctx.fillStyle = "green";
-        // }
-        // else if (i>=1 && i === snake.length) {
-        //     ctx.fillStyle = "red";
-        // }
-        // if (i > 0 && i < snake.length) 
-        else if (i>0 && i<snake.length-1)
-        {
-            ctx.fillStyle = "white";
+        if (snake.length == 1) {
+            ctx.drawImage(dogStartImg, snake[i].x, snake[i].y); //pitichien
+
         }
 
-        else 
-        // if (i>=1 && i === snake.length)
-         {
+        else if (i == 0 && snake.length>=2) {
+            // ctx.fillStyle = "green";
+            ctx.drawImage(dogHeadImg, snake[i].x, snake[i].y);
+        }
+        // if(i==0 && snake.length==1){
+        //     // snake.length=2;
+        // }
+        else if (i > 0 && i < snake.length - 1 && snake.length>=2) {
+            // ctx.fillStyle = "white";
+            ctx.drawImage(dogBodyImg, snake[i].x, snake[i].y);
+        } else {
             ctx.fillStyle = "red";
+            ctx.drawImage(dogTailImg, snake[i].x, snake[i].y);
         }
         // ctx.fillStyle = (i ==snake.length) ? "red" : "white";
-        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+        // ctx.fillRect(snake[i].x, snake[i].y, box, box);
         // if (i == 0) {
         //     ctx.drawImage(dogHeadImg, snake[0].x, snake[0].y);
         // }
@@ -139,7 +148,7 @@ function draw() {
         // ctx.drawImage(foodImg, food.x, food.y);
 
         ctx.strokeStyle = "red";
-        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+        // ctx.strokeRect(snake[i].x, snake[i].y, box, box);
     }
 
     ctx.fillStyle = "red";
@@ -150,13 +159,23 @@ function draw() {
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
-    //which direction
+
+    //which direction goes the snake ?
 
     if (d == "LEFT") snakeX -= box;
     if (d == "UP") snakeY -= box;
     if (d == "RIGHT") snakeX += box;
     if (d == "DOWN") snakeY += box;
 
+    // if (snake.length <= 1) {
+    //     // let snakeTail = {
+    //     //     x: snake[0].x,
+    //     //     y: snake[0].y + box
+    //     // };
+    //     snake.splice(snake.length, 0, snakeTail);
+    //     // snake.unshift(newHead);
+
+    // }
     //if the snake eats the food
     if ((snakeX == food.x) && (snakeY == food.y)) {
         score++;
@@ -166,17 +185,24 @@ function draw() {
             y: Math.floor(Math.random() * 20 + 3) * box
         }
         //don't remove the tail
+
     } else {
         //remove the tail 
         snake.pop(); //last element
         // snake.splice(0, snake.length - 1);
     }
+    // snake.splice(0, snake.length - 1);
 
     //add new head
     let newHead = {
         x: snakeX,
         y: snakeY
     }
+    // if (begin == true) {
+    //     snake.unshift(newHead);
+    //     begin = false;
+    // }
+
 
     //game over
     if (snakeX < box || snakeX > 20 * box || snakeY < 3 * box || snakeY > 22 * box || collision(newHead, snake)) {
@@ -185,6 +211,7 @@ function draw() {
     }
 
     snake.unshift(newHead);
+
     //scores
     ctx.fillStyle = "white";
     ctx.font = "45px Komika Text"
