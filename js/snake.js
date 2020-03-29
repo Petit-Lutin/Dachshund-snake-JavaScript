@@ -17,8 +17,10 @@ dogBodyImg.src = "sprites/body.png";
 const dogTailImg = new Image();
 dogTailImg.src = "sprites/tail.png";
 
-dogStartImg = new Image();
-dogStartImg.src = "sprites/deb.png";
+dogStartImgV = new Image();
+dogStartImgV.src = "sprites/startingDogVertical.png";
+dogStartImgH = new Image();
+dogStartImgH.src = "sprites/startingDogHorizontal.png";
 
 //load audio files
 const dead = new Audio();
@@ -35,24 +37,12 @@ left.src = "audio/left.mp3";
 right.src = "audio/right.mp3";
 down.src = "audio/down.mp3";
 
-// create the snake
-// let snakeHead = 1;
-// let snakeBody = [];
-// let snakeTail = 1;
-// let snake = [snakeHead, snakeBody, snakeTail];
 let snake = [];
 snake[0] = {
     x: 9 * box,
     y: 10 * box
 };
-// snake[1] = {
-//     x: snake[0].x,
-//     y: 11 * box
-// };
-let snakeTail = {
-    x: 9 * box,
-    y: 11 * box
-}
+
 let begin = true;
 
 // create the food random position
@@ -60,8 +50,6 @@ let food = {
     x: Math.floor(Math.random() * 20 + 1) * box,
     y: Math.floor(Math.random() * 20 + 3) * box
 }
-
-
 
 
 
@@ -108,24 +96,44 @@ function collision(head, array) {
     return false;
 }
 
-function draw() {
+
+//old head position
+let snakeX = snake[0].x;
+let snakeY = snake[0].y;
+
+function draw() { //drawing on the canvas
+
+    //which direction goes the snake ?
+
+    if (d == "LEFT") snakeX -= box;
+    if (d == "UP") snakeY -= box;
+    if (d == "RIGHT") snakeX += box;
+    if (d == "DOWN") snakeY += box;
+
+
     ctx.drawImage(background, 0, 0);
+
+
     for (let i = 0; i < snake.length; i++) {
-        // ctx.fillStyle = (i == 0) ? "green" : "white";
-        if (snake.length == 1) {
-            ctx.drawImage(dogStartImg, snake[i].x, snake[i].y); //pitichien
 
-        }
 
-        else if (i == 0 && snake.length>=2) {
-            // ctx.fillStyle = "green";
+
+        if (snake.length == 1) { //at the very beginning of the game
+
+
+            if (d == "LEFT" || d == "RIGHT") {
+                ctx.drawImage(dogStartImgH, snake[i].x, snake[i].y, 32, 32); //horizontal snake if moving horizontally
+
+            } else if (d == "UP" || d == "DOWN") {
+                ctx.drawImage(dogStartImgV, snake[i].x, snake[i].y, 32, 32); //vertical snake if moving vertically
+            } else if (d == null) {
+                ctx.drawImage(dogStartImgH, snake[i].x, snake[i].y, 32, 32); //horizontal snake by default
+
+            }
+
+        } else if (i == 0 && snake.length >= 2) {
             ctx.drawImage(dogHeadImg, snake[i].x, snake[i].y);
-        }
-        // if(i==0 && snake.length==1){
-        //     // snake.length=2;
-        // }
-        else if (i > 0 && i < snake.length - 1 && snake.length>=2) {
-            // ctx.fillStyle = "white";
+        } else if (i > 0 && i < snake.length - 1 && snake.length >= 2) {
             ctx.drawImage(dogBodyImg, snake[i].x, snake[i].y);
         } else {
             ctx.fillStyle = "red";
@@ -152,20 +160,20 @@ function draw() {
     }
 
     ctx.fillStyle = "red";
-    ctx.drawImage(foodImg, food.x, food.y); //place la nourriture dessinée
+    ctx.drawImage(foodImg, food.x, food.y); //illustration of food
     // ctx.fillRect(food.x, food.y, box, box); //dessine un rectangle
 
-    //old head position
-    let snakeX = snake[0].x;
-    let snakeY = snake[0].y;
+    // //old head position
+    // let snakeX = snake[0].x;
+    // let snakeY = snake[0].y;
 
 
-    //which direction goes the snake ?
+    // //which direction goes the snake ?
 
-    if (d == "LEFT") snakeX -= box;
-    if (d == "UP") snakeY -= box;
-    if (d == "RIGHT") snakeX += box;
-    if (d == "DOWN") snakeY += box;
+    // if (d == "LEFT") snakeX -= box;
+    // if (d == "UP") snakeY -= box;
+    // if (d == "RIGHT") snakeX += box;
+    // if (d == "DOWN") snakeY += box;
 
     // if (snake.length <= 1) {
     //     // let snakeTail = {
@@ -180,19 +188,19 @@ function draw() {
     if ((snakeX == food.x) && (snakeY == food.y)) {
         score++;
         // eat.play(); 
-         food = {
+        food = {
             x: Math.floor(Math.random() * 20 + 1) * box,
             y: Math.floor(Math.random() * 20 + 3) * box
         }
-        for (i=0;i<snake.length;i++){ //check for the food not to be placed where the snake is
-            if (snake[i].x==food.x){
-                food.x=Math.floor(Math.random() * 20 + 1) * box
+        for (i = 0; i < snake.length; i++) { //check for the food not to be placed where the snake is
+            if (snake[i].x == food.x) {
+                food.x = Math.floor(Math.random() * 20 + 1) * box
             }
-            if (snake[i].y==food.y){
-                food.y=Math.floor(Math.random() * 20 + 3) * box
+            if (snake[i].y == food.y) {
+                food.y = Math.floor(Math.random() * 20 + 3) * box
             }
         }
-      
+
 
         //don't remove the tail
 
