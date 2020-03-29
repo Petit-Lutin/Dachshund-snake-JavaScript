@@ -8,7 +8,7 @@ const box = 32;
 const background = new Image();
 background.src = "background/bg.png";
 const foodImg = new Image();
-foodImg.src = "sprites/food.png";
+foodImg.src = "sprites/bone.png";
 
 const dogHeadImg = new Image();
 dogHeadImg.src = "sprites/head.png";
@@ -160,7 +160,7 @@ function draw() { //drawing on the canvas
     }
 
     ctx.fillStyle = "red";
-    ctx.drawImage(foodImg, food.x, food.y); //illustration of food
+    ctx.drawImage(foodImg, food.x, food.y,32,32); //illustration of food
     // ctx.fillRect(food.x, food.y, box, box); //dessine un rectangle
 
     // //old head position
