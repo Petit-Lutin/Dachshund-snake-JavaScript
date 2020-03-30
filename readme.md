@@ -23,7 +23,7 @@ Create the sprites using Krita
 - [x] Food 
 - [ ] Create a sprite with round angles so the dog is not split when it turns
 - [ ] 
-![my first ever pixel art, representing a dachshund](errors_screenshots/create_angles.png)
+![the angles of the dog are not nice](errors_screenshots/create_angles.png)
 - [ ] Update the sprite sheet
 
 
