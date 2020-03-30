@@ -22,8 +22,8 @@ Create the sprites using Krita
 - [x] One big sprite with all the elements : then only one image to load
 - [x] Food 
 - [ ] Create a sprite with round angles so the dog is not split when it turns
-- [ ] 
-![the angles of the dog are not nice](errors_screenshots/create_angles.png)
+
+![the angles of the dog are not nice](errors_screenshots/create_angles.PNG)
 - [ ] Update the sprite sheet
 
 
