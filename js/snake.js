@@ -7,20 +7,8 @@ const box = 32;
 //load images
 const background = new Image();
 background.src = "background/bg.png";
-const foodImg = new Image();
-foodImg.src = "sprites/bone.png";
-
-const dogHeadImg = new Image();
-dogHeadImg.src = "sprites/head.png";
-const dogBodyImg = new Image();
-dogBodyImg.src = "sprites/body.png";
-const dogTailImg = new Image();
-dogTailImg.src = "sprites/tail.png";
-
-dogStartImgV = new Image();
-dogStartImgV.src = "sprites/startingDogVertical.png";
-dogStartImgH = new Image();
-dogStartImgH.src = "sprites/startingDogHorizontal.png";
+const sprites = new Image();
+sprites.src = "sprites/sprites_small.png";
 
 //load audio files
 const dead = new Audio();
@@ -42,8 +30,6 @@ snake[0] = {
     x: 9 * box,
     y: 10 * box
 };
-
-let begin = true;
 
 // create the food random position
 let food = {
@@ -114,53 +100,82 @@ function draw() { //drawing on the canvas
     ctx.drawImage(background, 0, 0);
 
 
-    for (let i = 0; i < snake.length; i++) {
+    for (let i = 0; i < snake.length; i++) { //context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 
 
+        //at the very beginning of the game, the dog's size is 1box
+        if (snake.length == 1) { //we choose the right element on the sprite
 
-        if (snake.length == 1) { //at the very beginning of the game
+            if (d == "LEFT") {
+                ctx.drawImage(sprites, 32, 64, 32, 32, snake[i].x, snake[i].y, 32, 32); //horizontal dog looking to the left
 
+            } else if (d == "RIGHT") {
+                ctx.drawImage(sprites, 32, 32, 32, 32, snake[i].x, snake[i].y, 32, 32); //horizontal dog looking to the right
 
-            if (d == "LEFT" || d == "RIGHT") {
-                ctx.drawImage(dogStartImgH, snake[i].x, snake[i].y, 32, 32); //horizontal snake if moving horizontally
+            } else if (d == "UP") {
+                ctx.drawImage(sprites, 64, 32, 32, 32, snake[i].x, snake[i].y, 32, 32); //vertical dog looking up
 
-            } else if (d == "UP" || d == "DOWN") {
-                ctx.drawImage(dogStartImgV, snake[i].x, snake[i].y, 32, 32); //vertical snake if moving vertically
+            } else if (d == "DOWN") {
+                ctx.drawImage(sprites, 96, 32, 32, 32, snake[i].x, snake[i].y, 32, 32); //vertical dog looking up
             } else if (d == null) {
-                ctx.drawImage(dogStartImgH, snake[i].x, snake[i].y, 32, 32); //horizontal snake by default
-
+                ctx.drawImage(sprites, 32, 32, 32, 32, snake[i].x, snake[i].y, 32, 32); //horizontal dog looking to the right by default
             }
 
-        } else if (i == 0 && snake.length >= 2) {
-            ctx.drawImage(dogHeadImg, snake[i].x, snake[i].y);
-        } else if (i > 0 && i < snake.length - 1 && snake.length >= 2) {
-            ctx.drawImage(dogBodyImg, snake[i].x, snake[i].y);
-        } else {
-            ctx.fillStyle = "red";
-            ctx.drawImage(dogTailImg, snake[i].x, snake[i].y);
+        } else if (i == 0 && snake.length >= 2) { //drawing a bigger head according to the axis and direction
+
+
+            if (d == "LEFT") {
+                ctx.drawImage(sprites, 32, 96, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (d == "RIGHT") {
+                ctx.drawImage(sprites, 96, 0, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (d == "UP") {
+                ctx.drawImage(sprites, 0, 0, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (d == "DOWN") {
+                ctx.drawImage(sprites, 128, 64, 32, 32, snake[i].x, snake[i].y, 32, 32);
+            }
+
+
+        } else if (i > 0 && i < snake.length - 1 && snake.length >= 2) { //drawing the body TODO: simplify code because belly is symmetrical 
+            // ctx.drawImage(dogBodyImg, snake[i].x, snake[i].y);
+
+            if (snake[i].x > snake[i - 1].x) { //d == "LEFT"
+                ctx.drawImage(sprites, 64, 0, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (snake[i].x < snake[i - 1].x) { //d == "RIGHT"
+                ctx.drawImage(sprites, 64, 0, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (snake[i].y > snake[i - 1].y) { //d == "UP"
+                ctx.drawImage(sprites, 0, 32, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (snake[i].y < snake[i - 1].y) { //d == "DOWN"
+                ctx.drawImage(sprites, 0, 32, 32, 32, snake[i].x, snake[i].y, 32, 32);
+            }
+
+
+
+        } else { // drawing a bigger tail according to the axis and direction
+
+            if (snake[i].x > snake[i - 1].x) { //d == "LEFT"
+                ctx.drawImage(sprites, 96, 96, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (snake[i].x < snake[i - 1].x) { //d == "RIGHT"
+                ctx.drawImage(sprites, 32, 0, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (snake[i].y > snake[i - 1].y) { //d == "UP"
+                ctx.drawImage(sprites, 0, 64, 32, 32, snake[i].x, snake[i].y, 32, 32);
+
+            } else if (snake[i].y < snake[i - 1].y) { //d == "DOWN"
+                ctx.drawImage(sprites, 128, 0, 32, 32, snake[i].x, snake[i].y, 32, 32);
+            }
         }
-        // ctx.fillStyle = (i ==snake.length) ? "red" : "white";
-        // ctx.fillRect(snake[i].x, snake[i].y, box, box);
-        // if (i == 0) {
-        //     ctx.drawImage(dogHeadImg, snake[0].x, snake[0].y);
-        // }
-        // for (let j=0; j<snakeBody.length;j++){
-        //     ctx.drawImage(dogBodyImg, snake[j].x, snake[j].y);
-        // }
-        // if (i == snake.length) {
-        //     ctx.drawImage(dogTailImg, snake[i].x, snake[i].y);
-        // } else {
-        //     ctx.drawImage(dogBodyImg, snake[i].x, snake[i].y);
-        // }
-
-        // ctx.drawImage(foodImg, food.x, food.y);
-
-        ctx.strokeStyle = "red";
-        // ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+      
     }
 
     ctx.fillStyle = "red";
-    ctx.drawImage(foodImg, food.x, food.y,32,32); //illustration of food
+    ctx.drawImage(sprites, 0, 96, 32, 32, food.x, food.y, 32, 32); //illustration of food
     // ctx.fillRect(food.x, food.y, box, box); //dessine un rectangle
 
     // //old head position
@@ -200,26 +215,18 @@ function draw() { //drawing on the canvas
                 food.y = Math.floor(Math.random() * 20 + 3) * box
             }
         }
-
-
         //don't remove the tail
 
     } else {
         //remove the tail 
         snake.pop(); //last element
-        // snake.splice(0, snake.length - 1);
     }
-    // snake.splice(0, snake.length - 1);
 
     //add new head
     let newHead = {
         x: snakeX,
         y: snakeY
     }
-    // if (begin == true) {
-    //     snake.unshift(newHead);
-    //     begin = false;
-    // }
 
 
     //game over

@@ -8,8 +8,7 @@ This tutorial using canvas with colored squares in JavaScript was my starting po
 My goal is not to copy/paste the code of this tutorial : I want to replace the snake with a dachshund (sausage dog).
 My first problem was to separate the head, the body (belly), and the tail, because I wanted that only the belly of the dog could grow.  
 
-![my first ever pixel art, representing a dachshund](sprites/startingDogHorizontal.png)
-
+ ![my first ever pixel art, representing a dachshund](sprites/startingDogHorizontal.png)
 ## To do
 
 First, with colored squares to display the "dog-snake" :
@@ -17,16 +16,22 @@ First, with colored squares to display the "dog-snake" :
 
 Create the sprites using Krita
 - [x] Small "dog-snake", horizontal and vertical
-- [ ] Head, vertical and horizontal
-- [ ] Body
-- [ ] Tail, vertical and horizontal
-- [ ] One big sprite with all the elements : then only one image to load
+- [x] Head, vertical and horizontal
+- [x] Body
+- [x] Tail, vertical and horizontal
+- [x] One big sprite with all the elements : then only one image to load
+- [x] Food 
+- [ ] Create a sprite with round angles so the dog is not split when it turns
+- [ ] 
+![my first ever pixel art, representing a dachshund](errors_screenshots/create_angles.png)
+- [ ] Update the sprite sheet
+
 
 Track the axis and the direction  of the "dog-snake" to display the correct sprite :
 - [x] Horizontal or vertical axis for small "dog-snake"
-- [ ] Direction for small "dog-snake"
-- [ ] Horizontal or vertical axis for "dog-snake"'s head, body, tail
-- [ ] Direction for"dog-snake"'s head, body, tail
+- [x] Direction for small "dog-snake"
+- [x] Horizontal or vertical axis for "dog-snake"'s head, body, tail
+- [x] Direction for"dog-snake"'s head, body, tail
 
 Last but not least :
 - [ ] Clean the code
